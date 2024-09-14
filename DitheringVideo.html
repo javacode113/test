@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SVG Filter - Dithering Video</title>
+        <style>
+            /*
+https://stackoverflow.com/questions/38040149/convert-image-to-variable-number-of-grayscales
+https://yoksel.github.io/svg-filters/#/
+https://en.wikipedia.org/wiki/Ordered_dithering#Threshold_map
+*/
+
+            video {
+            }
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                max-height: 100vh;
+            }
+
+            svg {
+                /*   display: none; */
+                height: 0;
+                width: 0;
+                position: absolute;
+                animation: test 1s;
+            }
+
+            @keyframes test {
+                0% {
+                    height: 0;
+                }
+                100% {
+                    height: 0;
+                }
+            }
+
+            .container {
+                display: flex;
+                height: 100vh;
+            }
+
+            .video-left {
+                filter: url(#filter1);
+                width: 50%;
+                object-fit: cover;
+                image-rendering: crisp-edges;
+                image-rendering: pixelated;
+            }
+
+            .video-right {
+                filter: url(#filter2);
+                width: 50%;
+                object-fit: cover;
+                image-rendering: crisp-edges;
+                image-rendering: pixelated;
+            }
+
+            .color {
+                background: linear-gradient(90deg, black 10%, white);
+                filter: url(#filter);
+                color: white;
+                image-rendering: crisp-edges;
+                image-rendering: pixelated;
+                a {
+                    color: white;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container container--preview">
+            <img
+                class="video-left"
+                src="https://assets.codepen.io/108721/left.gif"
+                alt=""
+            />
+            <img
+                class="video-right"
+                src="https://assets.codepen.io/108721/right.gif"
+                alt=""
+            />
+        </div>
+        <div class="container container--no-preview">
+            <video
+                class="video-left"
+                loop
+                autoplay
+                muted
+                preload="none"
+                poster="https://assets.codepen.io/108721/videoframe_0.png"
+            >
+                <source
+                    src="https://videos.pexels.com/video-files/2397239/2397239-sd_960_506_24fps.mp4"
+                    type="video/mp4"
+                />
+                Your browser does not support the video tag.
+            </video>
+            <video
+                class="video-right"
+                loop
+                autoplay
+                muted
+                preload="none"
+                poster="https://assets.codepen.io/108721/videoframe_0+%281%29.png"
+            >
+                <source
+                    src="https://videos.pexels.com/video-files/14952031/14952031-sd_960_540_30fps.mp4"
+                    type="video/mp4"
+                />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <svg>
+            <filter
+                id="filter1"
+                color-interpolation-filters="sRGB"
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+            >
+                <feFlood
+                    flood-color="#000000"
+                    flood-opacity="0.50"
+                    x="0%"
+                    y="0%"
+                    result="flood"
+                />
+                <feBlend
+                    mode="normal"
+                    x="0%"
+                    y="0%"
+                    in="SourceGraphic"
+                    in2="flood"
+                    result="blend1"
+                />
+                <feImage
+                    class="ditherImage"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAA5ElEQVQYlQXBgQbCUABA0fdrk0ySSZJJkiRJMjOTTGZmkiRJZiYzyczMzGQmfdrtHPH7/TgcDuR5zna7pWka9vs9aZqyXq8R0+mU5/OJoihcLhfG4zFBENDtdjmdToj3+81yueTz+WCaJnEcM5/PKcsSXdcRsizjeR6j0YjH40Gr1cJxHAaDAbfbDVHXNbvdjiRJWK1WfL9fLMsiyzI2mw1CVVV836fT6XA8HplMJoRhSK/X43w+I6IoYjabURQFmqbxer1YLBZUVYVhGAhJkrBtm36/z/V6pd1u47ouw+GQ+/3OH4/Fn8FvF/NxAAAAAElFTkSuQmCC"
+                    x="0"
+                    y="0"
+                    width="4"
+                    height="4"
+                    crossOrigin="anonymous"
+                    result="image1"
+                />
+                <feTile x="0" y="0" in="image1" result="tile" />
+                <feBlend
+                    mode="overlay"
+                    x="0%"
+                    y="0%"
+                    in="blend1"
+                    in2="tile"
+                    result="blend2"
+                />
+                <feColorMatrix type="saturate" values="0" />
+                <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 0" />
+                    <feFuncG type="discrete" tableValues="0 1" />
+                    <feFuncB type="discrete" tableValues="0 1" />
+                </feComponentTransfer>
+            </filter>
+            <filter
+                id="filter2"
+                color-interpolation-filters="sRGB"
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+            >
+                <feFlood
+                    flood-color="#000000"
+                    flood-opacity="0.50"
+                    x="0%"
+                    y="0%"
+                    result="flood"
+                />
+                <feBlend
+                    mode="normal"
+                    x="0%"
+                    y="0%"
+                    in="SourceGraphic"
+                    in2="flood"
+                    result="blend1"
+                />
+                <feImage
+                    class="ditherImage"
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAA5ElEQVQYlQXBgQbCUABA0fdrk0ySSZJJkiRJMjOTTGZmkiRJZiYzyczMzGQmfdrtHPH7/TgcDuR5zna7pWka9vs9aZqyXq8R0+mU5/OJoihcLhfG4zFBENDtdjmdToj3+81yueTz+WCaJnEcM5/PKcsSXdcRsizjeR6j0YjH40Gr1cJxHAaDAbfbDVHXNbvdjiRJWK1WfL9fLMsiyzI2mw1CVVV836fT6XA8HplMJoRhSK/X43w+I6IoYjabURQFmqbxer1YLBZUVYVhGAhJkrBtm36/z/V6pd1u47ouw+GQ+/3OH4/Fn8FvF/NxAAAAAElFTkSuQmCC"
+                    x="0"
+                    y="0"
+                    width="4"
+                    height="4"
+                    crossOrigin="anonymous"
+                    result="image1"
+                />
+                <feTile x="0" y="0" in="image1" result="tile" />
+                <feBlend
+                    mode="overlay"
+                    x="0%"
+                    y="0%"
+                    in="blend1"
+                    in2="tile"
+                    result="blend2"
+                />
+                <feColorMatrix type="saturate" values="0" />
+                <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 0.5 1" />
+                    <feFuncG type="discrete" tableValues="0 0" />
+                    <feFuncB type="discrete" tableValues="0 0" />
+                </feComponentTransfer>
+            </filter>
+        </svg>
+        <script>
+            // JS to detect preview
+
+            const isPreview = location.href.includes("fullcpgrid");
+            const previewContainer = document.querySelector(
+                ".container--preview"
+            );
+            const noPreviewContainer = document.querySelector(
+                ".container--no-preview"
+            );
+
+            if (isPreview) {
+                noPreviewContainer.style.display = "none";
+            } else {
+                previewContainer.style.display = "none";
+            }
+
+            // JS to keep dither from breaking at different pixel ratios
+
+            const ditherImages = document.querySelectorAll(".ditherImage");
+
+            function setDitherImageSizesToPixelRatio() {
+                let size = (8 / window.devicePixelRatio) * (isPreview ? 2 : 1);
+                console.log("new size ", size);
+                Array.from(ditherImages).forEach((img) => {
+                    img.setAttribute("width", size);
+                    img.setAttribute("height", size);
+                });
+            }
+
+            setDitherImageSizesToPixelRatio();
+            window.addEventListener("resize", setDitherImageSizesToPixelRatio);
+        </script>
+    </body>
+</html>
