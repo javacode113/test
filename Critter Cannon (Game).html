@@ -1,56 +1,62 @@
 <!DOCTYPE html>
-<html lang="ch-Hant">
+<html lang="zh-Hant">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Critter Cannon (Game)</title>
-        <style>
-            * {
-                margin: 0;
-                box-sizing: border-box;
-                overflow: hidden;
-            }
-            body {
-                background: #367396;
-                width: 100%;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                canvas {
-                    box-shadow: 0.2em 0.2em 2em #0008;
-                    border: none;
-                    outline: none;
-                }
-            }
-        </style>
+        <title>Critter Cannon Game</title>
+        <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
     </head>
     <body>
-        //- Critter Cannon (Game) Grant Jenkins, August 2024 Do you want some
-        senseless fun? Don't want to think much? Always wanted to shoot innocent
-        critters out of a cannon? Looking to procrastinate to avoid your life
-        long dreams? :/ You're come to the right place :p This game is based off
-        the game Kitten Cannon. Read the instructions to get started.
-        @References: Animals
-        https://www.vectorstock.com/royalty-free-vector/farm-animal-cartoons-vector-714933
-        Kitten Cannon https://www.addictinggames.com/funny/kitten-cannon
-        canvas#canvas
-        script(src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js")
-        audio#explosive(src="https://assets.codepen.io/5126815/cannon-explode.mp3"
-        preload="auto")
-        audio#bomb(src="https://assets.codepen.io/5126815/boom.mp3"
-        preload="auto")
-        audio#trampoline(src="https://assets.codepen.io/5126815/bounce.mp3"
-        preload="auto")
-        audio#mud(src="https://assets.codepen.io/5126815/mud.mp3"
-        preload="auto")
-        audio#flytrap(src="https://assets.codepen.io/5126815/eat-burp.mp3"
-        preload="auto")
-        audio#fire(src="https://assets.codepen.io/5126815/medium-explosion.mp3"
-        preload="auto")
-        audio#ground(src="https://assets.codepen.io/5126815/thud.mp3"
-        preload="auto")
+        <!-- Game description -->
+        <!-- <p>
+            Critter Cannon (Game) by Grant Jenkins, August 2024<br />
+            Do you want some senseless fun? Don't want to think much? Always
+            wanted to shoot innocent critters out of a cannon? Looking to
+            procrastinate to avoid your life long dreams? :/ You're come to the
+            right place :p<br />
+            This game is based off the game Kitten Cannon. Read the instructions
+            to get started.
+        </p> -->
+
+        <!-- Game canvas -->
+        <canvas id="canvas"></canvas>
+
+        <!-- Audio elements -->
+        <audio
+            id="explosive"
+            src="https://assets.codepen.io/5126815/cannon-explode.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="bomb"
+            src="https://assets.codepen.io/5126815/boom.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="trampoline"
+            src="https://assets.codepen.io/5126815/bounce.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="mud"
+            src="https://assets.codepen.io/5126815/mud.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="flytrap"
+            src="https://assets.codepen.io/5126815/eat-burp.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="fire"
+            src="https://assets.codepen.io/5126815/medium-explosion.mp3"
+            preload="auto"
+        ></audio>
+        <audio
+            id="ground"
+            src="https://assets.codepen.io/5126815/thud.mp3"
+            preload="auto"
+        ></audio>
         <script>
             var sketchProc = function (processingInstance) {
                 with (processingInstance) {
