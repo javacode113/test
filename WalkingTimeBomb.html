@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Walking Time Bomb</title>
+        <style>
+            body {
+                background-color: #84b9be;
+                overflow: hidden;
+                text-align: center;
+            }
+
+            body,
+            html {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #animationWindow {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="animationWindow"></div>
+        <script>
+            var select = function (s) {
+                    return document.querySelector(s);
+                },
+                selectAll = function (s) {
+                    return document.querySelectorAll(s);
+                },
+                animationWindow = select("#animationWindow"),
+                animData = {
+                    wrapper: animationWindow,
+                    animType: "svg",
+                    loop: true,
+                    prerender: true,
+                    autoplay: true,
+                    path: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/walking_time_bomb.json",
+                },
+                anim;
+
+            anim = lottie.loadAnimation(animData);
+            anim.setSpeed(1);
+        </script>
+    </body>
+</html>
