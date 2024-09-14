@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Beach Scene #2</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                overscroll-behavior-x: none;
+                overscroll-behavior-y: none;
+                scroll-behavior: smooth;
+            }
+            body {
+                font-family: "Lato", sans-serif;
+                position: relative;
+                width: 100%;
+                max-width: 100vw;
+                height: auto;
+                min-height: 100vh;
+                text-align: center;
+                overflow-x: hidden;
+
+                background: black;
+
+                color: gray;
+            }
+            canvas {
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                position: fixed;
+                width: 100%;
+                max-width: 100vw;
+                height: auto;
+                min-height: 100vh;
+                top: 0;
+                left: 0;
+                z-index: 0;
+            }
+            main {
+                position: relative;
+            }
+            section {
+                position: relative;
+                width: 100vw;
+                min-height: 100vh;
+                display: grid;
+                place-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <!--
+    Beach Scene #2
+    Copyright (c) 2024 by Wakana Y.K. (https://codepen.io/wakana-k/pen/QWXwMqw)
+    -->
+
+        <!-- using three.js -->
+        <main>
+            <section>
+                <div>
+                    <p>Loading...</p>
+                </div>
+            </section>
+        </main>
+
+        <script
+            async
+            src="https://ga.jspm.io/npm:es-module-shims@1.6.3/dist/es-module-shims.js"
+            crossorigin="anonymous"
+        ></script>
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+                }
+            }
+        </script>
+        <script>
+            /*!
+Beach Scene #2
+Copyright (c) 2024 by Wakana Y.K. (https://codepen.io/wakana-k/pen/QWXwMqw)
+*/
+            "use strict";
+            console.clear();
+            import * as THREE from "three";
+            import { OrbitControls as e } from "three/addons/controls/OrbitControls.js";
+            import { ParametricGeometry as t } from "three/addons/geometries/ParametricGeometry.js";
+            import { Water as n } from "three/addons/objects/Water2.js";
+            import { GLTFLoader as o } from "three/addons/loaders/GLTFLoader.js";
+            !(function () {
+                let a, r, i, s, l, c, d, p, h;
+                const w = new THREE.TextureLoader(),
+                    m = new o();
+                let u, E, g, f, R, b;
+                function H(e, t, n) {
+                    e = 4 * e - 2;
+                    let o = (t = 2 * t - 1),
+                        a = 2 * Math.tan(t),
+                        r = e;
+                    return n.set(o, a, r);
+                }
+                function _(e) {
+                    const t = new THREE.Color();
+                    return t.setHSL(100 / 240, 1, 0.5 * (1 - e) + 0.4), t;
+                }
+                function y() {
+                    (a.aspect = window.innerWidth / window.innerHeight),
+                        a.updateProjectionMatrix(),
+                        i.setSize(window.innerWidth, window.innerHeight);
+                }
+                function T() {
+                    requestAnimationFrame(T), s.update(), i.render(r, a);
+                }
+                !(async function () {
+                    ([u, E, g, f, R, b] = await Promise.all([
+                        w.loadAsync(
+                            "https://raw.githubusercontent.com/happy358/misc/main/texture/aerial_beach_01/aerial_beach_01_nor_gl_2k.jpg"
+                        ),
+                        w.loadAsync(
+                            "https://raw.githubusercontent.com/happy358/misc/main/texture/aerial_beach_01/aerial_beach_01_rough_2k.jpg"
+                        ),
+                        w.loadAsync(
+                            "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/water/Water_1_M_Normal.jpg"
+                        ),
+                        w.loadAsync(
+                            "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/water/Water_2_M_Normal.jpg"
+                        ),
+                        w.loadAsync(
+                            "https://happy358.github.io/Images/HDR/kloofendal_48d_partly_cloudy_puresky_2k.jpg"
+                        ),
+                        m.loadAsync(
+                            "https://raw.githubusercontent.com/happy358/misc/main/model/duck/rubber_duck.gltf"
+                        ),
+                    ])),
+                        (u.wrapT = THREE.RepeatWrapping),
+                        (u.repeat.y = 1),
+                        (E.wrapT = THREE.RepeatWrapping),
+                        (E.repeat.y = 1),
+                        (function () {
+                            (r = new THREE.Scene()),
+                                (R.mapping =
+                                    THREE.EquirectangularRefractionMapping),
+                                (R.anisotropy = 16),
+                                (R.colorSpace = THREE.SRGBColorSpace),
+                                (r.environment = R),
+                                R.dispose(),
+                                (i = new THREE.WebGLRenderer({
+                                    antialias: !0,
+                                })).setPixelRatio(
+                                    Math.min(window.devicePixelRatio, 2)
+                                ),
+                                i.setSize(
+                                    window.innerWidth,
+                                    window.innerHeight
+                                ),
+                                document.body.appendChild(i.domElement),
+                                (a = new THREE.PerspectiveCamera(
+                                    35,
+                                    window.innerWidth / window.innerHeight,
+                                    0.1,
+                                    100
+                                )).position.set(3, 4, 0),
+                                ((s = new e(a, i.domElement)).autoRotate = !1),
+                                (s.enableDamping = !0),
+                                (s.enablePan = !1),
+                                (s.maxDistance = a.far / 2),
+                                (s.minPolarAngle = 0),
+                                (s.maxPolarAngle = Math.PI / 2.5),
+                                s.target.set(0, 0, 0),
+                                s.update();
+                            const t = new THREE.AmbientLight(15198183, 1);
+                            r.add(t);
+                            const n = new THREE.DirectionalLight(16777215, 3);
+                            n.position.set(0, 100, 150),
+                                r.add(n),
+                                window.addEventListener("resize", y);
+                        })(),
+                        (function () {
+                            const e = {
+                                color: "white",
+                                scale: 3,
+                                flowX: -1,
+                                flowY: 0,
+                            };
+                            (l = new THREE.PlaneGeometry(5, 5)).scale(2, 2, 2),
+                                ((p = new n(l, {
+                                    color: e.color,
+                                    scale: e.scale,
+                                    flowDirection: new THREE.Vector2(
+                                        e.flowX,
+                                        e.flowY
+                                    ),
+                                    textureWidth: 1024,
+                                    textureHeight: 1024,
+                                    clipBias: 0.05,
+                                    reflectivity: 0,
+                                    flowSpeed: 0.07,
+                                    normalMap0: g,
+                                    normalMap1: f,
+                                })).rotation.x = -0.5 * Math.PI),
+                                r.add(p),
+                                (l = (function (e) {
+                                    let t = e.getAttribute("position").array;
+                                    const n = new Float32Array(t.length);
+                                    for (let e = 0; e < t.length / 3; e++) {
+                                        const o = (t[3 * e] + 1) / 2,
+                                            a = _(o);
+                                        (n[3 * e] = a.r),
+                                            (n[3 * e + 1] = a.g),
+                                            (n[3 * e + 2] = a.b);
+                                    }
+                                    return (
+                                        e.setAttribute(
+                                            "color",
+                                            new THREE.BufferAttribute(n, 3)
+                                        ),
+                                        e
+                                    );
+                                })((l = new t(H, 100, 50)))).rotateZ(
+                                    -Math.PI / 2
+                                ),
+                                l.scale(2, 2, 2),
+                                l.scale(0.8, 0.5, 1.25),
+                                (c = new THREE.MeshStandardMaterial({
+                                    color: "white",
+                                    vertexColors: !0,
+                                    map: E,
+                                    normalMap: u,
+                                    roughnessMap: E,
+                                    side: THREE.DoubleSide,
+                                })),
+                                (d = new THREE.Mesh(l, c)).position.set(
+                                    0,
+                                    -1,
+                                    0
+                                ),
+                                r.add(d);
+                            (l = b.scene.children[0].geometry).translate(
+                                0,
+                                -0.02,
+                                0
+                            ),
+                                (c = b.scene.children[0].material).color.set(
+                                    "white"
+                                ),
+                                (h = new THREE.Mesh(l, c)).scale.set(1, 1, 1),
+                                h.rotation.set(0, Math.PI / 4, 0),
+                                h.position.set(0.5, 0, 0),
+                                r.add(h);
+                        })(),
+                        T();
+                })();
+            })();
+        </script>
+    </body>
+</html>
